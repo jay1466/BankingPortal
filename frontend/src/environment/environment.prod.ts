@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '/api',
+  apiUrl: 'https://banking-backend-production-b1cc.up.railway.app/api',
   tokenName :  "authToken",
-  origin:'http://localhost:4200' 
+  origin: 'http://localhost:4200' 
 };
