@@ -1,0 +1,43 @@
+<div class="h-full flex items-center justify-center coverparentspace px-4 py-12">
+  <div class="max-w-[700px] w-full animate-slide-up">
+    <div class="fintech-card p-10">
+      
+      <div class="text-center mb-10">
+        <div class="w-20 h-20 rounded-full bg-rose-50 border-4 border-white shadow-md flex items-center justify-center mx-auto mb-6 text-rose-600">
+          <i class="fas fa-arrow-up text-4xl"></i>
+        </div>
+        <h2 class="text-4xl font-extrabold text-slate-900 tracking-tight">Withdraw Funds</h2>
+        <p class="text-slate-500 mt-2 text-base">Transfer money out of your account securely.</p>
+      </div>
+      
+      <form [formGroup]="withdrawForm" (ngSubmit)="onSubmit()" class="text-left space-y-8">
+        
+        <!-- Large Amount Input -->
+        <div class="bg-slate-50/80 p-6 rounded-2xl border border-slate-200">
+          <label for="amount" class="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 text-center">Amount to Withdraw</label>
+          <div class="relative max-w-sm mx-auto">
+            <span class="absolute left-6 top-1/2 transform -translate-y-1/2 text-slate-400 text-3xl font-bold">₹</span>
+            <input autocomplete="off" formControlName="amount" type="number" id="amount"
+              class="w-full bg-white border-2 border-transparent focus:border-rose-500 rounded-xl pl-14 pr-6 py-4 text-4xl font-extrabold text-slate-900 shadow-sm focus:outline-none transition-all placeholder-slate-300" placeholder="0.00" />
+          </div>
+        </div>
+        
+        <!-- PIN Input -->
+        <div class="max-w-sm mx-auto">
+          <label for="pin" class="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-2 text-center">Authorize with PIN</label>
+          <input autocomplete="off" formControlName="pin" type="password" id="pin"
+            class="fintech-input text-center tracking-[1em] text-2xl font-bold py-4 bg-slate-50 border-slate-200 focus:border-rose-500 focus:ring-rose-500/50" placeholder="••••" maxlength="4" />
+        </div>
+        
+        <!-- Action Button -->
+        <div class="pt-4 max-w-sm mx-auto">
+          <button type="submit" [disabled]="withdrawForm.invalid"
+            class="btn-danger w-full !py-4 !text-lg !rounded-xl">
+            Confirm Withdrawal <i class="fas fa-arrow-right ml-2"></i>
+          </button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>

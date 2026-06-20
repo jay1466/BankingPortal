@@ -1,0 +1,31 @@
+<div class="fintech-card p-6 h-full flex flex-col items-center justify-center text-center bg-white">
+  
+  <div class="relative mb-5 group mt-2">
+    <!-- Enlarged Avatar -->
+    <div class="w-28 h-28 rounded-full bg-slate-50 flex items-center justify-center text-4xl font-extrabold text-indigo-600 shadow-sm border border-slate-200 transition-transform duration-300 group-hover:scale-105">
+      {{ avatarInitial }}
+    </div>
+    <!-- Verified Badge -->
+    <div class="absolute bottom-1 right-1 w-7 h-7 bg-emerald-500 border-2 border-white rounded-full flex justify-center items-center shadow-sm" title="Verified Account">
+      <i class="fas fa-check text-white text-xs"></i>
+    </div>
+  </div>
+
+  <h3 class="text-xl font-extrabold text-slate-900 mb-1">{{ userProfileData?.name }}</h3>
+  <p class="text-slate-500 font-medium text-sm mb-6">{{ userProfileData?.email }}</p>
+
+  <div class="w-full space-y-2 mb-6">
+    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+      <span class="text-xs font-bold text-slate-400 uppercase tracking-wider"><i class="fas fa-phone mr-2"></i>Phone</span>
+      <span class="text-sm font-bold text-slate-800">{{ userProfileData?.phoneNumber || '-' }}</span>
+    </div>
+    <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+      <span class="text-xs font-bold text-slate-400 uppercase tracking-wider"><i class="fas fa-building mr-2"></i>Branch</span>
+      <span class="text-sm font-bold text-slate-800">{{ accountDetails?.branch || 'Main Branch' }}</span>
+    </div>
+  </div>
+
+  <a routerLink="/user/profile" class="mt-auto w-full btn-secondary !py-2.5 !text-sm">
+    Manage Profile <i class="fas fa-arrow-right ml-1"></i>
+  </a>
+</div>

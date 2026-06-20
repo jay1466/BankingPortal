@@ -1,0 +1,41 @@
+<header class="fintech-nav fixed top-0 left-0 right-0 h-20 transition-all duration-300">
+  <div class="h-full px-4 sm:px-6 lg:px-8 mx-auto flex items-center justify-between">
+    
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center gap-2 group cursor-pointer focus:outline-none">
+      <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30 group-hover:shadow-lg group-hover:scale-105 transition-all">
+        <i class="fas fa-piggy-bank text-xl"></i>
+      </div>
+      <span class="text-xl font-extrabold text-slate-900 tracking-tight">OneStop<span class="text-indigo-600">Bank</span></span>
+    </a>
+
+    <!-- Navigation / CTAs -->
+    <nav class="flex items-center gap-4 sm:gap-6">
+      
+      <!-- Logged Out State -->
+      <ng-container *ngIf="!isLoggedIn()">
+        <a routerLink="/login" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors hidden sm:block focus:outline-none">
+          Sign In
+        </a>
+        <a routerLink="/register" class="btn-primary !py-2 !px-5 !text-sm">
+          Open Account <i class="fas fa-arrow-right ml-1.5 text-xs opacity-70"></i>
+        </a>
+      </ng-container>
+
+      <!-- Logged In State -->
+      <ng-container *ngIf="isLoggedIn()">
+        <a routerLink="/dashboard" class="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors hidden sm:block focus:outline-none">
+          Dashboard
+        </a>
+        <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
+        <a routerLink="/user/profile" class="flex items-center gap-3 cursor-pointer group hover:bg-slate-50 p-1.5 pr-3 rounded-full border border-transparent hover:border-slate-200 transition-all focus:outline-none">
+          <div class="w-9 h-9 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-sm shadow-sm group-hover:scale-105 transition-transform">
+            {{ avatarInitial }}
+          </div>
+          <span class="text-sm font-bold text-slate-800 hidden md:block group-hover:text-indigo-700 transition-colors">{{ userName || 'My Account' }}</span>
+        </a>
+      </ng-container>
+      
+    </nav>
+  </div>
+</header>

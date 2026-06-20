@@ -1,0 +1,17 @@
+<!-- pin-creation-model.component.html -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+  <div class="fintech-card max-w-md w-full p-8 text-center animate-slide-up shadow-2xl">
+    
+    <div class="mb-6">
+      <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto mb-6 text-primary border border-indigo-100">
+        <i class="fas fa-shield-alt text-3xl"></i>
+      </div>
+      <h2 class="text-2xl font-extrabold text-text-primary tracking-tight">Create PIN</h2>
+      <p class="text-text-secondary mt-3 text-sm leading-relaxed">You have not created a secure PIN yet. Please create a 4-digit PIN to enable transactions on your account.</p>
+    </div>
+    
+    <button (click)="onClose()" class="btn-primary w-full py-3">
+      Setup PIN Now <i class="fas fa-arrow-right ml-2 text-xs"></i>
+    </button>
+  </div>
+</div>

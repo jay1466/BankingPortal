@@ -1,0 +1,98 @@
+<div class="h-full flex items-center justify-center coverparentspace px-4 bg-background animate-fade-in">
+  <div class="max-w-md w-full animate-slide-up">
+    <div class="fintech-card p-8 text-center">
+      <div class="mb-8">
+        <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto mb-6 text-primary">
+          <i class="fas fa-piggy-bank text-3xl"></i>
+        </div>
+        <h2 class="text-3xl font-extrabold text-text-primary tracking-tight">
+          Welcome Back
+        </h2>
+        <p class="text-text-secondary mt-2 text-sm">Securely login to your account</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="text-left">
+        <div class="mb-5">
+          <label for="identifier" class="block text-sm font-medium text-text-primary mb-1.5"
+            >Email or Account Number</label
+          >
+          <input
+            formControlName="identifier"
+            type="text"
+            id="identifier"
+            placeholder="john@example.com"
+            class="fintech-input"
+          />
+          <div
+            *ngIf="
+              loginForm.get('identifier')?.invalid &&
+              loginForm.get('identifier')?.touched
+            "
+            class="text-danger text-xs mt-1.5 pl-1 font-medium"
+          >
+            Valid Email or Account Number is required.
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium text-text-primary mb-1.5"
+            >Password</label
+          >
+          <div class="relative">
+            <input
+              formControlName="password"
+              type="{{ showPassword ? 'text' : 'password' }}"
+              id="password"
+              placeholder="••••••••"
+              class="fintech-input pr-10"
+            />
+            <button type="button"
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-text-primary transition-colors focus:outline-none"
+              (click)="togglePasswordVisibility()">
+              <i class="fas" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+            class="text-danger text-xs mt-1.5 pl-1 font-medium"
+          >
+            Password is required.
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid"
+          class="btn-primary w-full"
+        >
+          <span>
+            Sign In <i class="fas fa-arrow-right ml-2 text-xs"></i>
+          </span>
+        </button>
+      </form>
+
+      <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:justify-between text-sm">
+        <a
+          class="text-primary hover:text-indigo-800 transition-colors font-semibold cursor-pointer"
+          routerLink="/login/otp"
+          >Login via OTP</a
+        >
+        <a
+          class="text-text-secondary hover:text-text-primary transition-colors cursor-pointer font-medium"
+          routerLink="/forget-password"
+          >Forgot Password?</a
+        >
+      </div>
+    </div>
+    
+    <div class="mt-8 text-center">
+      <p class="text-text-secondary text-sm font-medium">
+        Don't have an account? 
+        <a routerLink="/register" class="text-primary hover:text-indigo-800 font-semibold transition-colors cursor-pointer ml-1">Open an account</a>
+      </p>
+    </div>
+  </div>
+</div>

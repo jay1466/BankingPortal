@@ -1,0 +1,86 @@
+<div class="h-full flex items-center justify-center coverparentspace px-4 bg-background animate-fade-in py-12">
+  <div class="max-w-md w-full animate-slide-up">
+    <div class="fintech-card p-8 text-center">
+      
+      <div class="mb-8">
+        <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto mb-6 text-primary">
+          <i class="fas fa-shield-alt text-3xl"></i>
+        </div>
+        <h2 class="text-3xl font-extrabold text-text-primary tracking-tight">
+          Secure OTP Login
+        </h2>
+        <p class="text-text-secondary mt-2 text-sm">Verify your identity to continue</p>
+      </div>
+
+      <ng-container *ngIf="!otpGenerated; else verifyOtpSection">
+        <!-- OTP Generation Section -->
+        <form class="text-left" (ngSubmit)="generateOTP()" #otpForm="ngForm">
+          <div class="mb-6">
+            <label for="identifier" class="block text-sm font-medium text-text-primary mb-1.5"
+              >Email or Account Number</label
+            >
+            <input
+              id="identifier"
+              name="identifier"
+              type="text"
+              [(ngModel)]="identifier"
+              required
+              class="fintech-input"
+              placeholder="john@example.com"
+            />
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="!identifier"
+            class="btn-primary w-full"
+          >
+            <span class="flex items-center">
+              Send One-Time Password <i class="fas fa-paper-plane ml-2 text-xs"></i>
+            </span>
+          </button>
+        </form>
+      </ng-container>
+
+      <!-- OTP Verification Section -->
+      <ng-template #verifyOtpSection>
+        <div class="space-y-6">
+          <p class="text-text-secondary text-sm mb-4">
+            We've sent a 6-digit code to your registered email.
+          </p>
+          
+          <div class="flex justify-center otp-wrapper">
+            <ng-otp-input
+              #ngOtpInput
+              (onInputChange)="onOtpChange($event)"
+              [config]="config"
+            ></ng-otp-input>
+          </div>
+          
+          <button
+            type="submit"
+            (click)="verifyOTP()"
+            [disabled]="otp.length !== 6"
+            class="btn-primary w-full mt-6"
+          >
+            <span class="flex items-center">
+              Verify & Login <i class="fas fa-check-circle ml-2 text-xs"></i>
+            </span>
+          </button>
+          
+          <div class="mt-4 text-sm text-text-secondary font-medium">
+            Didn't receive the code? 
+            <button class="text-primary hover:text-indigo-800 font-semibold transition-colors cursor-pointer" (click)="generateOTP()">Resend</button>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="mt-8 pt-6 border-t border-slate-100 text-center">
+        <a routerLink="/login" class="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium cursor-pointer">
+          <i class="fas fa-arrow-left mr-1"></i> Back to standard login
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</div>

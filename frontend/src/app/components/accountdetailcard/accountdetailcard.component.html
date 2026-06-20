@@ -1,0 +1,54 @@
+<div class="fintech-card p-6 sm:p-8 h-full flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-white to-slate-50/50">
+  
+  <!-- Decorative Graphic -->
+  <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Top Section: Balance & Badges -->
+  <div class="relative z-10 mb-8 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+    <div>
+      <h3 class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2 flex items-center">
+        <i class="fas fa-wallet mr-2 text-indigo-500"></i> Total Available Balance
+      </h3>
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight">
+        {{ accountDetails?.balance | currency:'INR':'symbol' }}
+      </h2>
+    </div>
+    
+    <div class="flex flex-col items-end gap-2">
+      <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></span> Active Account
+      </span>
+      <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ accountDetails?.accountType || 'Savings' }}</span>
+    </div>
+  </div>
+
+  <!-- Middle Section: Account Info Grid -->
+  <div class="relative z-10 grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+    <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200 hover:bg-slate-100/80 transition-colors">
+      <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Account Number</label>
+      <span class="font-bold text-base text-slate-800 font-mono">{{ accountDetails?.accountNumber || '-' }}</span>
+    </div>
+    <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200 hover:bg-slate-100/80 transition-colors">
+      <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">IFSC Code</label>
+      <span class="font-bold text-base text-slate-800 font-mono">{{ accountDetails?.ifscCode || '-' }}</span>
+    </div>
+    <div class="p-4 rounded-xl bg-slate-50/80 border border-slate-200 hover:bg-slate-100/80 transition-colors hidden lg:block">
+      <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Branch</label>
+      <span class="font-bold text-base text-slate-800">{{ accountDetails?.branch || 'Main Branch' }}</span>
+    </div>
+  </div>
+
+  <!-- Bottom Section: Integrated Quick Actions -->
+  <div class="relative z-10 flex flex-wrap gap-3 pt-6 border-t border-slate-200/60">
+    <a routerLink="/account/deposit" class="btn-primary !py-2.5 !px-5 !bg-slate-900 hover:!bg-slate-800 !shadow-none flex-1 sm:flex-none text-center">
+      <i class="fas fa-plus mr-2 text-xs"></i> Add Money
+    </a>
+    <a routerLink="/account/fund-transfer" class="btn-primary !py-2.5 !px-5 !shadow-none flex-1 sm:flex-none text-center">
+      <i class="fas fa-paper-plane mr-2 text-xs"></i> Transfer
+    </a>
+    <a routerLink="/account/withdraw" class="btn-secondary !py-2.5 !px-5 !bg-white flex-1 sm:flex-none text-center">
+      <i class="fas fa-arrow-down mr-2 text-xs"></i> Withdraw
+    </a>
+  </div>
+
+</div>

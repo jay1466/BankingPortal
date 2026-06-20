@@ -1,0 +1,137 @@
+<div class="w-full max-w-[1600px] mx-auto" [ngClass]="{'p-4 sm:p-6 lg:p-8': isStandalone}">
+  <div class="fintech-card p-0 flex flex-col h-full bg-white/70 shadow-sm border border-white/60">
+  <!-- Header & Controls -->
+  <div class="p-6 border-b border-slate-200/60 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div>
+      <h3 class="text-xl font-bold text-slate-900">Transaction History</h3>
+      <p class="text-sm text-slate-500 mt-1">Monitor all your account activity.</p>
+    </div>
+    
+    <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+      <!-- Search (300px) -->
+      <div class="relative w-full sm:w-[300px]">
+        <input 
+          type="text" 
+          placeholder="Search transaction ID..." 
+          [(ngModel)]="searchId"
+          (ngModelChange)="onSearchChange()"
+          class="fintech-input pl-10 !py-2 !rounded-lg text-sm bg-white border border-slate-300"
+        >
+        <i class="fas fa-search absolute left-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+      </div>
+      
+      <!-- Filter -->
+      <select 
+        [(ngModel)]="filterType" 
+        (ngModelChange)="onFilterChange()"
+        class="fintech-input w-full sm:w-auto min-w-[140px] !py-2 !rounded-lg text-sm cursor-pointer bg-white border border-slate-300 focus:ring-indigo-500 font-medium"
+      >
+        <option value="ALL">All Types</option>
+        <option value="DEPOSIT">Deposits</option>
+        <option value="WITHDRAWAL">Withdrawals</option>
+        <option value="FUND_TRANSFER">Transfers</option>
+      </select>
+
+      <!-- Export Button -->
+      <button (click)="downloadStatement()" class="btn-secondary !py-2 !px-4 !rounded-lg ml-auto lg:ml-2">
+        <i class="fas fa-file-download mr-2 text-indigo-600"></i> Export
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="py-20 flex flex-col justify-center items-center">
+    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600 mb-4"></div>
+    <span class="text-slate-500 font-medium text-sm">Loading transactions...</span>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && filteredTransactionHistory.length === 0" class="py-24 text-center px-4">
+    <div class="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-6 text-slate-400 shadow-inner">
+      <i class="fas fa-receipt text-3xl"></i>
+    </div>
+    <h4 class="text-xl font-bold text-slate-800 mb-2">No transactions found</h4>
+    <p class="text-slate-500 text-sm max-w-sm mx-auto mb-8">We couldn't find any transactions matching your current filters. Try adjusting your search criteria.</p>
+    <button (click)="filterType='ALL'; searchId=''; onFilterChange()" class="btn-primary">
+      <i class="fas fa-sync-alt mr-2"></i> Reset Filters
+    </button>
+  </div>
+
+  <!-- Table Container (Sticky Header) -->
+  <div *ngIf="!loading && filteredTransactionHistory.length > 0" class="flex-grow overflow-auto max-h-[600px] w-full">
+    <table class="w-full text-left border-collapse whitespace-nowrap min-w-full">
+      <thead class="sticky top-0 bg-slate-50/95 backdrop-blur-md z-10 border-b border-slate-200 shadow-sm">
+        <tr>
+          <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Transaction ID</th>
+          <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date & Time</th>
+          <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Type</th>
+          <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 bg-white/50">
+        <tr *ngFor="let trx of transactions" class="hover:bg-slate-50/80 transition-colors group">
+          <td class="p-4 text-sm font-semibold text-slate-700 font-mono">
+            #{{ trx.transactionId }}
+          </td>
+          <td class="p-4 text-sm text-slate-500">
+            {{ trx.transactionDate | date:'MMM dd, yyyy • hh:mm a' }}
+          </td>
+          <td class="p-4">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold shadow-sm"
+              [ngClass]="{
+                'bg-emerald-50 text-emerald-700 border border-emerald-100': trx.isCredit,
+                'bg-rose-50 text-rose-700 border border-rose-100': !trx.isCredit
+              }">
+              <span class="w-1.5 h-1.5 rounded-full mr-1.5"
+                [ngClass]="{
+                  'bg-emerald-500': trx.isCredit,
+                  'bg-rose-500': !trx.isCredit
+                }"></span>
+              {{ trx.uiType }}
+            </span>
+          </td>
+          <td class="p-4 text-base font-extrabold text-right group-hover:scale-105 transition-transform origin-right"
+            [ngClass]="{
+              'text-emerald-600': trx.isCredit,
+              'text-slate-900': !trx.isCredit
+            }">
+            <span *ngIf="trx.isCredit">+</span>
+            <span *ngIf="!trx.isCredit">-</span>
+            {{ abs(trx.amount) | currency:'INR':'symbol':'1.2-2' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modern Pagination -->
+  <div *ngIf="!loading && filteredTransactionHistory.length > 0" class="p-4 border-t border-slate-200/60 bg-white/50 flex items-center justify-between">
+    <p class="text-sm text-slate-500 font-medium">
+      Showing <span class="font-bold text-slate-900">{{ (currentPage * pageSize) + 1 }}</span> to <span class="font-bold text-slate-900">{{ Math.min((currentPage + 1) * pageSize, filteredTransactionHistory.length) }}</span> of <span class="font-bold text-slate-900">{{ filteredTransactionHistory.length }}</span> entries
+    </p>
+    
+    <div class="flex items-center gap-2">
+      <button 
+        class="btn-secondary !py-1.5 !px-3 !text-sm !rounded-lg disabled:opacity-40"
+        (click)="changePage(currentPage - 1)" 
+        [disabled]="currentPage === 0"
+      >
+        <i class="fas fa-chevron-left mr-1.5 text-xs"></i> Prev
+      </button>
+      
+      <div class="px-3 py-1.5 rounded-lg bg-indigo-50 border border-indigo-100 text-indigo-700 font-bold text-sm">
+        {{ currentPage + 1 }} / {{ totalPages }}
+      </div>
+
+      <button 
+        class="btn-secondary !py-1.5 !px-3 !text-sm !rounded-lg disabled:opacity-40"
+        (click)="changePage(currentPage + 1)" 
+        [disabled]="currentPage >= totalPages - 1"
+      >
+        Next <i class="fas fa-chevron-right ml-1.5 text-xs"></i>
+      </button>
+    </div>
+  </div>
+
+</div>
+</div>
