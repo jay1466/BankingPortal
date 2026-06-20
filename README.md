@@ -2,7 +2,8 @@
 
 A comprehensive, full-stack digital banking solution built with **Spring Boot 3**, **Angular 14+**, and **MySQL**.
 
-![Dashboard](frontend/src/assets/dashboard.png)
+![Dashboard](<img width="1709" height="890" alt="Screenshot 2026-06-20 at 10 17 38 PM" src="https://github.com/user-attachments/assets/257ccc5d-385a-46be-b0c9-5342b2742aac" />
+)
 
 ## 🚀 Features
 
