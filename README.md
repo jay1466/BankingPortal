@@ -55,7 +55,7 @@ docker-compose up -d
 
 ## 👨‍💻 Created By
 **Jay Thesiya**
-- [Portfolio](https://www.jaythesiya.me/)
+- [Portfolio](https://jaythesiya.site/)
 - [GitHub](https://github.com/jay1466)
 
 &copy; 2026 OneStopBank. All rights reserved.
